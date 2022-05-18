@@ -10,7 +10,7 @@ https://cmuxstream.github.io/
 
 ## Demonstration
 
-We've set up a Google Colab notebook, which fits and scores the datapoints as described in the paper.
+We've set up a [Google Colab notebook](https://colab.research.google.com/drive/1riknnKQm9S5lkroI4SrsqkvkCLd-Bilr?usp=sharing), which fits and scores the evolving datapoints as described in the paper.
 
 ## Authors
 
