@@ -1,6 +1,5 @@
 import numpy as np
 import tqdm 
-print(tqdm.__version__)
 from sklearn.metrics import average_precision_score, roc_auc_score
 from collections import OrderedDict
 
