@@ -4,9 +4,9 @@
 
 https://cmuxstream.github.io/
 
-xStream detects outliers in feature-evolving data streams, where the full feature-space is unknown a-priori and evolves over time.
+* xStream detects outliers in feature-evolving data streams, where the full feature-space is unknown a-priori and evolves over time.
 
-xStream is accurate in all three settings: (i) static data, (ii) row-streams, and (iii) feature-evolving streams, as demonstrated over multiple datasets in each setting.
+* xStream is accurate in all three settings: (i) static data, (ii) row-streams, and (iii) feature-evolving streams, as demonstrated over multiple datasets in each setting.
 
 ## Demonstration
 
