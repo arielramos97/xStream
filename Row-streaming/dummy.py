@@ -2,24 +2,16 @@ import pandas as pd
 import numpy as np
 import math
 import tqdm
-from sklearn.metrics import average_precision_score
+from sklearn.metrics import average_precision_score, roc_auc_score
 from itertools import chain
+import statistics
+
 
 from xStream import xStream
 
 
-k = 10
-n_chains = 10
-depth = 3
 
-''' 
-window_size_percentage: is a percentage of the rows which will be used as a window size. 
-Actual window size is equal to window_size
-     '''
-# window_size_percentage = 0.01
-# window_size_percentage = 0.05
-#window_size_percentage = 0.1
-window_size_percentage = 0.25
+
    
     
 df = pd.read_excel (r'Mammography.xlsx', sheet_name='Sheet1')
@@ -30,18 +22,26 @@ X = np.array(x)
 X = np.squeeze(X)
 y= np.array(y)
 y = np.squeeze(y)
+
+
+''' 
+window_size_percentage: is a percentage of the rows which will be used as a window size. 
+Actual window size is equal to window_size
+     '''
+
+# window_size_percentage = 0.01
+# window_size_percentage = 0.05
+#window_size_percentage = 0.1
+window_size_percentage = 0.25
 window_size = math.floor(window_size_percentage*X.shape[0])
     
+k = 10
+n_chains = 10
+depth = 3
 
 cf = xStream(num_components=k, n_chains=n_chains, depth=depth, window_size=window_size) 
 
-'''for sample in tqdm.notebook.tqdm(X)):
-    cf.fit_partial(sample.A1)
-    anomalyscore = -cf.score_partial(sample.A1)
-    all_scores.append(anomalyscore)
-    print(anomalyscore)'''   
-    
-   
+
 all_scores = []
 average_precisions_per_window = []
 scores_per_window = []
@@ -69,3 +69,12 @@ for i, sample in enumerate(tqdm.notebook.tqdm(X)):
             average_precisions_per_window.append(average_precision_score(y_per_window,scores_per_window))
             window_size_counter = 0
             scores_per_window = []
+
+y = y[window_size:]
+std = statistics.stdev(average_precisions_per_window)
+oap = average_precision_score(y, all_scores) 
+auc = roc_auc_score(y, all_scores)
+map = sum(average_precisions_per_window) / len(average_precisions_per_window)
+
+print("XStream results for window size as a percentage of rows equal to",window_size_percentage*100,"% :\n",
+  "OAP = ", oap, "\n AUC = ", auc, "\n MAP = ", map, "with a standard deviation equal to: ",std )
